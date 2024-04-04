@@ -20,6 +20,7 @@ func main() {
 	buyTicket(name, family, ticket)
 }
 
+// buy ticket process
 func buyTicket(name string, family string, ticket int) {
 	for remainingTickets > 0 {
 		fmt.Println("\nEnter your firstname: ")
@@ -31,7 +32,7 @@ func buyTicket(name string, family string, ticket int) {
 		fmt.Println("How many ticket(s) do you want to buy?")
 		fmt.Scan(&ticket)
 
-		if remainingTickets >= ticket {
+		if checkRemainingTickets(ticket) {
 			remainingTickets -= ticket
 
 			fmt.Printf("Thanks, %v %v buy %v ticke(s).\n", name, family, ticket)
@@ -43,4 +44,13 @@ func buyTicket(name string, family string, ticket int) {
 	}
 
 	fmt.Printf("The tickets sold out.\n")
+}
+
+// check the remaining tickets
+func checkRemainingTickets(count int) bool {
+	if remainingTickets >= count {
+		return true
+	} else {
+		return false
+	}
 }
