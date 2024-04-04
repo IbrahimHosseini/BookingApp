@@ -4,18 +4,23 @@ import (
 	"fmt"
 )
 
+const totalTickets = 100
+
+var remainingTickets = totalTickets
+
 func main() {
 	// Welcome message
 	const companyName = "Flight Booking"
 	fmt.Printf("Welecom to %v.\n", companyName)
 
-	totalTickets := 100
-	var remainingTickets = totalTickets
-
 	var name string
 	var family string
 	var ticket int
 
+	buyTicket(name, family, ticket)
+}
+
+func buyTicket(name string, family string, ticket int) {
 	for remainingTickets > 0 {
 		fmt.Println("\nEnter your firstname: ")
 		fmt.Scan(&name)
