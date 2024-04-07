@@ -22,6 +22,9 @@ func main() {
 
 // buy ticket process
 func buyTicket(name string, family string, ticket int) {
+
+	fmt.Printf("\nThere are %v ticket(s) available.\n", remainingTickets)
+
 	for remainingTickets > 0 {
 		fmt.Println("\nEnter your firstname: ")
 		fmt.Scan(&name)
@@ -48,7 +51,7 @@ func buyTicket(name string, family string, ticket int) {
 
 // check the remaining tickets
 func checkRemainingTickets(count int) bool {
-	if remainingTickets >= count {
+	if remainingTickets <= count {
 		return true
 	} else {
 		return false
