@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 const totalTickets = 100
@@ -13,13 +14,14 @@ func main() {
 
 	var name string
 	var family string
+	var email string
 	var ticket int
 
-	buyTicket(name, family, ticket)
+	buyTicket(name, family, email, ticket)
 }
 
 // buy ticket process
-func buyTicket(name string, family string, ticket int) {
+func buyTicket(name string, family string, email string, ticket int) {
 
 	var remainingTickets = totalTickets
 
@@ -32,16 +34,32 @@ func buyTicket(name string, family string, ticket int) {
 		fmt.Println("Enter your lastname: ")
 		fmt.Scan(&family)
 
+		fmt.Println("Enter your email: ")
+		fmt.Scan(&email)
+
 		fmt.Println("How many ticket(s) do you want to buy?")
 		fmt.Scan(&ticket)
 
-		if remainingTickets >= ticket {
+		isValidName := len(name) >= 2 && len(family) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketNumber := remainingTickets >= ticket && ticket > 0
+
+		if isValidName && isValidEmail && isValidTicketNumber {
+
 			remainingTickets -= ticket
 
-			fmt.Printf("Thanks, %v %v buy %v ticke(s).\n", name, family, ticket)
+			fmt.Printf("Thanks, %v %v buy %v ticke(s).\nTicket(s) will be sent to %v.", name, family, ticket, email)
 			fmt.Printf("The %v ticket(s) is remaining.\n", remainingTickets)
 		} else {
-			fmt.Printf("Your request is more than remainig. The remaining tickets are %v.\n", remainingTickets)
+			if !isValidName {
+				fmt.Println("First name or last name you entered is too short.")
+			}
+			if !isValidEmail {
+				fmt.Println("Email address you entered doesn't contain @ sign.")
+			}
+			if !isValidTicketNumber {
+				fmt.Println("Number of tickets you entered is not valid.")
+			}
 		}
 
 	}
