@@ -3,27 +3,32 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
+	"strconv"
 )
 
 const totalTickets = 100
 
+var remainingTickets = totalTickets
+var ticket int
+
+const confranceName = "Flight Booking"
+
+// create a list of maps
+var bookings = make([]map[string]string, 0)
+
 func main() {
 	// Welcome message
-	const companyName = "Flight Booking"
-	fmt.Printf("Welecom to %v.\n", companyName)
+	fmt.Printf("Welecom to %v.\n", confranceName)
 
 	var name string
 	var family string
 	var email string
-	var ticket int
 
-	buyTicket(name, family, email, ticket)
+	buyTicket(name, family, email)
 }
 
 // buy ticket process
-func buyTicket(name string, family string, email string, ticket int) {
-
-	var remainingTickets = totalTickets
+func buyTicket(name string, family string, email string) {
 
 	fmt.Printf("\nThere are %v ticket(s) available.\n", remainingTickets)
 
@@ -43,11 +48,7 @@ func buyTicket(name string, family string, email string, ticket int) {
 		isValidName, isValidEmail, isValidTicketNumber := helper.InputValidation(name, family, remainingTickets, ticket, email)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
-
-			remainingTickets -= ticket
-
-			fmt.Printf("Thanks, %v %v buy %v ticke(s).\nTicket(s) will be sent to %v.", name, family, ticket, email)
-			fmt.Printf("The %v ticket(s) is remaining.\n", remainingTickets)
+			bookTicket(ticket, name, family, email)
 		} else {
 			if !isValidName {
 				fmt.Println("First name or last name you entered is too short.")
@@ -63,4 +64,22 @@ func buyTicket(name string, family string, email string, ticket int) {
 	}
 
 	fmt.Printf("The tickets sold out.\n")
+}
+
+func bookTicket(userTickets int, firstName string, lastName string, email string) {
+
+	remainingTickets -= ticket
+
+	// creat a map for user
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["numberOfTickets"] = strconv.FormatInt(int64(userTickets), 10)
+
+	bookings = append(bookings, userData)
+	fmt.Printf("List of bookings is:\n %v\n", bookings)
+
+	fmt.Printf("Thanks, %v %v buy %v ticke(s).\nTicket(s) will be sent to %v.", firstName, lastName, userTickets, email)
+	fmt.Printf("The %v ticket(s) is remaining for %v.\n", remainingTickets, confranceName)
 }
