@@ -1,6 +1,7 @@
 package main
 
 import (
+	"booking-app/helper"
 	"fmt"
 )
 
@@ -39,7 +40,7 @@ func buyTicket(name string, family string, email string, ticket int) {
 		fmt.Println("How many ticket(s) do you want to buy?")
 		fmt.Scan(&ticket)
 
-		isValidName, isValidEmail, isValidTicketNumber := inputValidation(name, family, remainingTickets, ticket, email)
+		isValidName, isValidEmail, isValidTicketNumber := helper.InputValidation(name, family, remainingTickets, ticket, email)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 
