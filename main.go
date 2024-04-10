@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 const totalTickets = 100
@@ -40,9 +39,7 @@ func buyTicket(name string, family string, email string, ticket int) {
 		fmt.Println("How many ticket(s) do you want to buy?")
 		fmt.Scan(&ticket)
 
-		isValidName := len(name) >= 2 && len(family) >= 2
-		isValidEmail := strings.Contains(email, "@")
-		isValidTicketNumber := remainingTickets >= ticket && ticket > 0
+		isValidName, isValidEmail, isValidTicketNumber := inputValidation(name, family, remainingTickets, ticket, email)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 
