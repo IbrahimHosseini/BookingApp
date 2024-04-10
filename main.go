@@ -3,7 +3,6 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
-	"strconv"
 )
 
 const totalTickets = 100
@@ -14,7 +13,15 @@ var ticket int
 const confranceName = "Flight Booking"
 
 // create a list of maps
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
+
+// struct
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets int
+}
 
 func main() {
 	// Welcome message
@@ -71,11 +78,12 @@ func bookTicket(userTickets int, firstName string, lastName string, email string
 	remainingTickets -= ticket
 
 	// creat a map for user
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	userData["numberOfTickets"] = strconv.FormatInt(int64(userTickets), 10)
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
+	}
 
 	bookings = append(bookings, userData)
 	fmt.Printf("List of bookings is:\n %v\n", bookings)
