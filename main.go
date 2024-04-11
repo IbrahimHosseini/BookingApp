@@ -3,6 +3,7 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
+	"time"
 )
 
 const totalTickets = 100
@@ -56,6 +57,10 @@ func buyTicket(name string, family string, email string) {
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookTicket(ticket, name, family, email)
+
+			// user the `go` keyword to useing cuncurency in app and run the thread in background.
+			go sendTicket(ticket, name, family, email)
+
 		} else {
 			if !isValidName {
 				fmt.Println("First name or last name you entered is too short.")
@@ -90,4 +95,15 @@ func bookTicket(userTickets int, firstName string, lastName string, email string
 
 	fmt.Printf("Thanks, %v %v buy %v ticke(s).\nTicket(s) will be sent to %v.", firstName, lastName, userTickets, email)
 	fmt.Printf("The %v ticket(s) is remaining for %v.\n", remainingTickets, confranceName)
+}
+
+func sendTicket(userTickets int, firstName string, lastName string, email string) {
+
+	time.Sleep(10 * time.Second)
+
+	ticket := fmt.Sprintf("%v ticket(s) for %v %v.", userTickets, firstName, lastName)
+
+	fmt.Println("########################")
+	fmt.Printf("Sending ticket:\n%v \nto email address %v.\n", ticket, email)
+	fmt.Println("########################")
 }
