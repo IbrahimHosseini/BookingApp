@@ -3,6 +3,7 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -15,6 +16,9 @@ const confranceName = "Flight Booking"
 
 // create a list of maps
 var bookings = make([]UserData, 0)
+
+// creat a wait group
+var wg = sync.WaitGroup{}
 
 // struct
 type UserData struct {
@@ -40,42 +44,46 @@ func buyTicket(name string, family string, email string) {
 
 	fmt.Printf("\nThere are %v ticket(s) available.\n", remainingTickets)
 
-	for remainingTickets > 0 {
-		fmt.Println("\nEnter your firstname: ")
-		fmt.Scan(&name)
+	// for remainingTickets > 0 {
+	fmt.Println("\nEnter your firstname: ")
+	fmt.Scan(&name)
 
-		fmt.Println("Enter your lastname: ")
-		fmt.Scan(&family)
+	fmt.Println("Enter your lastname: ")
+	fmt.Scan(&family)
 
-		fmt.Println("Enter your email: ")
-		fmt.Scan(&email)
+	fmt.Println("Enter your email: ")
+	fmt.Scan(&email)
 
-		fmt.Println("How many ticket(s) do you want to buy?")
-		fmt.Scan(&ticket)
+	fmt.Println("How many ticket(s) do you want to buy?")
+	fmt.Scan(&ticket)
 
-		isValidName, isValidEmail, isValidTicketNumber := helper.InputValidation(name, family, remainingTickets, ticket, email)
+	isValidName, isValidEmail, isValidTicketNumber := helper.InputValidation(name, family, remainingTickets, ticket, email)
 
-		if isValidName && isValidEmail && isValidTicketNumber {
-			bookTicket(ticket, name, family, email)
+	if isValidName && isValidEmail && isValidTicketNumber {
+		bookTicket(ticket, name, family, email)
 
-			// user the `go` keyword to useing cuncurency in app and run the thread in background.
-			go sendTicket(ticket, name, family, email)
+		// agg wait group for function
+		wg.Add(1)
+		// user the `go` keyword to useing cuncurency in app and run the thread in background.
+		go sendTicket(ticket, name, family, email)
 
-		} else {
-			if !isValidName {
-				fmt.Println("First name or last name you entered is too short.")
-			}
-			if !isValidEmail {
-				fmt.Println("Email address you entered doesn't contain @ sign.")
-			}
-			if !isValidTicketNumber {
-				fmt.Println("Number of tickets you entered is not valid.")
-			}
+	} else {
+		if !isValidName {
+			fmt.Println("First name or last name you entered is too short.")
 		}
-
+		if !isValidEmail {
+			fmt.Println("Email address you entered doesn't contain @ sign.")
+		}
+		if !isValidTicketNumber {
+			fmt.Println("Number of tickets you entered is not valid.")
+		}
 	}
 
+	// }
+
 	fmt.Printf("The tickets sold out.\n")
+
+	wg.Wait()
 }
 
 func bookTicket(userTickets int, firstName string, lastName string, email string) {
@@ -106,4 +114,6 @@ func sendTicket(userTickets int, firstName string, lastName string, email string
 	fmt.Println("########################")
 	fmt.Printf("Sending ticket:\n%v \nto email address %v.\n", ticket, email)
 	fmt.Println("########################")
+
+	wg.Done()
 }
