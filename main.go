@@ -20,7 +20,17 @@ var bookings = make([]UserData, 0)
 // creat a wait group
 var wg = sync.WaitGroup{}
 
-// struct
+// The UserData struct defines the structure of user data including first name, last name, email, and
+// number of tickets.
+// @property {string} firstName - The `firstName` property in the `UserData` struct represents the
+// first name of a user. It is of type `string` and stores the first name of the user.
+// @property {string} lastName - The `lastName` property in the `UserData` struct represents the last
+// name of a user. It is of type `string` and is used to store the last name of the user.
+// @property {string} email - The `email` property in the `UserData` struct represents the email
+// address of the user.
+// @property {int} numberOfTickets - The `numberOfTickets` property in the `UserData` struct represents
+// the number of tickets associated with a user. It is an integer type that stores the count of tickets
+// owned by the user.
 type UserData struct {
 	firstName       string
 	lastName        string
